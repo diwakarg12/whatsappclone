@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ChatArea = () => {
-  return (
-    <div>
-        <textarea name="ChatArea" id="" cols="30" rows="10"></textarea>
-    </div>
-  )
-}
+  return <div className=" bg-slate-300 h-full "></div>;
+};
 
-export default ChatArea
+export default ChatArea;

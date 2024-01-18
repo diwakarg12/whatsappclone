@@ -1,5 +1,5 @@
 #body {
-  background-color: #68d391;
+  background-color: #dfdfdc;
 }
 
 .scrollbar::-webkit-scrollbar {
@@ -8,4 +8,12 @@
 
 .scrollbar::-webkit-scrollbar-thumb {
   background: #d10606;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
 }

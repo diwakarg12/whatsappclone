@@ -1,23 +1,20 @@
-import React from 'react'
-import '../Style.css'
-import Chat from './Chat'
+import React, { useState } from "react";
+import "../Style.css";
+import Chat from "./Chat";
 
-const Chats = () => {
+const Chats = ({ user }) => {
   return (
-    <div className='h-5/6 overflow-y-auto scrollbar'>
-    <Chat />
-    <Chat />
-    <Chat />
-    <Chat />
-    <Chat />
-    <Chat />
-    <Chat />
-    <Chat />
-    <Chat />
-    <Chat />
-
+    <div className="h-5/6 overflow-y-auto scrollbar">
+      {user?.map((item) => (
+        <Chat
+          key={item.id}
+          profile={item.profile}
+          name={item.name}
+          content={item.content}
+        />
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default Chats
+export default Chats;
