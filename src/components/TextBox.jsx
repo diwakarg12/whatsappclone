@@ -5,13 +5,14 @@ const TextBox = (props) => {
   return (
     <div className={props.mainStyle}>
       {props.icon1}
+      {props.icon2}
       <input
         type="text"
         name="textbox"
         placeholder={props.text}
         className={props.style}
       />
-      <button>{props.icon2}</button>
+      <button>{props.icon3}</button>
     </div>
   );
 };

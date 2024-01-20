@@ -1,7 +1,6 @@
 import React from "react";
-import { MdDelete } from "react-icons/md";
 
-const Chat = ({ name, content, profile, id }) => {
+const Chat = ({ name, content, profile, id, icon }) => {
   return (
     <div className="relative p-4" key={id}>
       <div className="flex items-center ">
@@ -10,15 +9,13 @@ const Chat = ({ name, content, profile, id }) => {
           alt="profile"
           className="w-12 h-12 rounded-full bg-white"
         />
-        <div className="block ml-2 text-slate-100">
+        <div className="block ml-2">
           <h3 className="">{name}</h3>
           <p>{content}</p>
         </div>
-        <button title="delete">
-          <MdDelete className="absolute right-5 top-4 text-white font-extrabold text-3xl hover:text-red-600" />
-        </button>
+        {icon}
       </div>
-      <hr className="border-t border-slate-700 w-10/12 mt-4 absolute right-2 " />
+      <hr className="border-t border-[#d7dadb] w-10/12 mt-4 absolute right-2 " />
     </div>
   );
 };

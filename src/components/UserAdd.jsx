@@ -22,7 +22,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
       content: content,
       profile: "./assets/images/profileIcon.jpg",
     };
-    onDataFromChild(userData);
+    onDataFromChild((prevState) => [...prevState, userData]);
 
     setName("");
     setNumber("");
