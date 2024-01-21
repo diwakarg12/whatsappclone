@@ -43,7 +43,7 @@ Make sure you have the following software installed on your machine:
 
 ###Usage
 1. Start the development server:
-2. Open your web browser and go to http://localhost:3000.
+2. Open your web browser and go to http://localhost:5173.
 3. Interact with the WhatsApp Clone application.
 
 ###Contributing
