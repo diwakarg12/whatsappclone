@@ -1,3 +1,6 @@
+import React from "react";
+
+// Importing components and icons
 import Navbar from "./components/Navbar";
 import TextBox from "./components/TextBox";
 import Chats from "./components/Chats";
@@ -5,8 +8,6 @@ import { MdOutlineAddComment } from "react-icons/md";
 import { MdGroups } from "react-icons/md";
 import { TbHistoryToggle } from "react-icons/tb";
 import { FaSearch } from "react-icons/fa";
-import { MdOutlineVideoCall } from "react-icons/md";
-import { MdAddCall } from "react-icons/md";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { RiChatSmile3Fill } from "react-icons/ri";
@@ -18,6 +19,7 @@ import UserAdd from "./components/UserAdd";
 import { useState, useEffect } from "react";
 import Emojies from "./components/Emojies";
 
+// Sample user data to be displayed when loading.
 const dataToDisplay = [
   {
     id: 1,
@@ -27,30 +29,85 @@ const dataToDisplay = [
     profile: "./assets/images/profileIcon.jpg",
   },
 ];
+
 function App() {
+  // State variables using useState hook
   const [user, setUser] = useState(dataToDisplay);
   const [toggleForm, setToggleForm] = useState(false);
   const [toggleEmoji, setToggleEmoji] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [titleName, setTitleName] = useState({
+    name: "user",
+    profile: "",
+  });
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState("");
 
+  // Function to handle user click and display user details in the Navbar
+  const handleNameClick = (id) => {
+    let data = user.find((item) => item.id === id);
+    setTitleName({
+      name: data.name,
+      profile: data.profile,
+    });
+    console.log(id);
+  };
+
+  // useEffect hook to reset the titleName when user data changes
+  useEffect(() => {
+    setTitleName({
+      name: "user",
+      profile: "",
+    });
+  }, [user]);
+
+  // Function to toggle the user form display
   const toggleFormHandler = () => {
     setToggleForm((prevState) => !prevState);
   };
-  // const toggleEmojiHandler = () => {
-  //   setToggleEmoji((prevState) => !prevState);
-  // };
 
+  // Function to handle chat deletion
   const hnadleDelete = (id) => {
     setUser(user.filter((e) => e.id !== id));
   };
 
+  // Function to handle search input change
+  const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  // Filtering users based on search input
+  const filteredUser = user.filter((item) =>
+    item.name.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
+  // Function to handle sending a message
+  const handleSendMessage = () => {
+    if (messageInput.trim() !== "") {
+      const newMessage = {
+        sender: titleName.name,
+        content: messageInput,
+      };
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setMessageInput(""); // Clear the message input after sending
+    }
+  };
+
+  // Function to handle input change in the message box
+  const handleInputChange = (e) => {
+    setMessageInput(e.target.value);
+  };
+
+  // Main component rendering
   return (
     <div
       className="bg-whatsappgreen h-32 w-screen absolute "
       style={{ zIndex: "-1" }}
     >
       <div className="flex p-5 overflow-y-hidden h-screen">
-        {/* sidesection */}
+        {/* Sidebar Section */}
         <div className="w-1/3 bg-white pb-1 h-full overflow-y-hidden border-r">
+          {/* navigationbar for sidebar section */}
           <Navbar
             showForm={toggleFormHandler}
             iconStyle={"flex items-center justify-between w-2/3 pr-8"}
@@ -80,6 +137,7 @@ function App() {
               />
             }
           />
+          {/* Search bar component */}
           <TextBox
             mainStyle={
               "relative flex w-full mt-2 items-center justify-center p-3"
@@ -101,17 +159,24 @@ function App() {
                 className="ml-2"
               />
             }
+            onInputChange={handleSearchInputChange}
           />
           <hr className="border-t border-[#d7dadb] " />
-          <Chats user={user} deleteChat={hnadleDelete} />
+          {/* Chats section to store all the users details */}
+          <Chats
+            userShow={filteredUser}
+            deleteChat={hnadleDelete}
+            nameOnTitle={handleNameClick}
+          />
         </div>
-        {/* sidesection End */}
+        {/* Sidebar Section End */}
 
-        {/* mainSection start */}
+        {/* Main Section */}
         <div className="w-2/3 h-full relative">
           <div className="h-full flex flex-col justify-between">
+            {/* Navbar for user Details to which user is chatting*/}
             <Navbar
-              name={"Name"}
+              title={titleName}
               iconStyle={"flex items-center justify-end w-2/3 pr-8"}
               icon1={
                 <FaSearch
@@ -132,17 +197,15 @@ function App() {
                 />
               }
             />
-            {toggleForm ? (
-              <UserAdd
-                // onDataFromChild={handleDataFromChild}
-                onDataFromChild={setUser}
-                hideForm={toggleFormHandler}
-              />
-            ) : (
-              ""
+            {/* popup form to add user into Chats section.  */}
+            {toggleForm && (
+              <UserAdd onDataFromChild={setUser} hideForm={toggleFormHandler} />
             )}
+            {/* popup emoji section to use emoji  */}
             {toggleEmoji && <Emojies />}
-            <ChatArea />
+            {/* Chat Areat to display sent and receive message */}
+            <ChatArea messages={messages} />
+            {/* Textbox to send message to other user. */}
             <TextBox
               mainStyle={
                 "relative bg-[#dee0e3] flex w-full items-center justify-center p-1"
@@ -170,6 +233,9 @@ function App() {
                   className="ml-2"
                 />
               }
+              onInputChange={handleInputChange}
+              sendMessage={handleSendMessage}
+              messageInput={messageInput}
             />
           </div>
         </div>

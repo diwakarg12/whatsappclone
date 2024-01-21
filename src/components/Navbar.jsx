@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Navbar = ({ name, icon1, icon2, icon3, icon4, icon5, iconStyle, showForm }) => {
+const Navbar = ({
+  title,
+  icon1,
+  icon2,
+  icon3,
+  icon4,
+  icon5,
+  iconStyle,
+  showForm,
+}) => {
   return (
     <nav className="bg-[#dee0e3] flex items-center justify-between p-2 pl-8">
       <div className="w-1/3 flex items-center justify-start">
         <button title="profile">
           <img
             src="./assets/images/profile.png"
+            // src={title?.profile}
             alt="Profile"
             className="w-10 h-10 bg-slate-200 rounded-full"
           />
         </button>
-        <h4 className="text-black text-lg ml-2">{name}</h4>
+        <h4 className="text-black text-lg ml-2">{title?.name}</h4>
       </div>
       <div className={iconStyle}>
         <button

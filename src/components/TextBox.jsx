@@ -2,6 +2,12 @@ import React from "react";
 import { FaSearch } from "react-icons/fa";
 
 const TextBox = (props) => {
+  // function to send message when clicking enter key or button
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      props.sendMessage();
+    }
+  };
   return (
     <div className={props.mainStyle}>
       {props.icon1}
@@ -11,8 +17,11 @@ const TextBox = (props) => {
         name="textbox"
         placeholder={props.text}
         className={props.style}
+        onChange={props.onInputChange}
+        onKeyDown={handleKeyDown}
+        value={props.messageInput}
       />
-      <button>{props.icon3}</button>
+      <button onClick={props.sendMessage}>{props.icon3}</button>
     </div>
   );
 };

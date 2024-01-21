@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import "../Style.css";
 import Chat from "./Chat";
 import { MdDelete } from "react-icons/md";
 
-const Chats = ({ user, deleteChat }) => {
+const Chats = ({ userShow, deleteChat, nameOnTitle }) => {
   return (
     <div className="h-5/6 overflow-y-auto scrollbar">
-      {user?.map((item) => (
+      {userShow?.map((item) => (        //mapping over userShowData which comes as prop and display each user to the Chats section.
         <Chat
           key={item.id}
           profile={item.profile}
@@ -20,6 +20,7 @@ const Chats = ({ user, deleteChat }) => {
               }}
             />
           }
+          onClick={() => nameOnTitle(item.id)}
         />
       ))}
     </div>

@@ -6,8 +6,8 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState(0);
   const [content, setContent] = useState("");
-  // const [profile, setProfile] = useState("");
 
+  // function to handle data's when submitting form after filling and some validation on blank input box.
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name === "" || number === "" || content === "") {
@@ -15,6 +15,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
       return;
     }
 
+    // object definition which receive data from texboxes through state and set to one object.
     const userData = {
       id: Date.now(),
       name: name,
@@ -22,8 +23,10 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
       content: content,
       profile: "./assets/images/profileIcon.jpg",
     };
+    //this reveives data from popup form and set data to main object throght state
     onDataFromChild((prevState) => [...prevState, userData]);
 
+    //making textboxes empty after submitting the form.
     setName("");
     setNumber("");
     setContent("");
@@ -57,12 +60,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <input
-          type="file"
-          id="file"
-          className="hidden"
-          // onChange={handleImageChange}
-        />
+        <input type="file" id="file" className="hidden" />
         <label
           htmlFor="file"
           className="absolute left-14 bottom-4 cursor-pointer"

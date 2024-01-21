@@ -1,8 +1,8 @@
 import React from "react";
 
-const Chat = ({ name, content, profile, id, icon }) => {
+const Chat = ({ name, content, profile, id, icon, onClick }) => {
   return (
-    <div className="relative p-4" key={id}>
+    <div className="relative p-4" key={id} onClick={onClick}>
       <div className="flex items-center ">
         <img
           src={profile}
