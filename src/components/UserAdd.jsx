@@ -6,6 +6,59 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState(0);
   const [content, setContent] = useState("");
+  const [profile, setProfile] = useState("");
+
+  function resizeImage(file, maxWidth) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxWidth) {
+            width *= maxWidth / height;
+            height = maxWidth;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL());
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = async () => {
+      try {
+        const dataUrl = await resizeImage(file, 200); // Resize to 200 pixels wide
+        setProfile(dataUrl);
+      } catch (err) {
+        console.error("Failed to resize image:", err);
+      }
+    };
+
+    if (file) {
+      reader.readAsArrayBuffer(file);
+    } else {
+      setProfile(null);
+    }
+  };
 
   // function to handle data's when submitting form after filling and some validation on blank input box.
   const handleSubmit = (e) => {
@@ -21,8 +74,9 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
       name: name,
       number: number,
       content: content,
-      profile: "./assets/images/profileIcon.jpg",
+      profile: profile,
     };
+    console.log(userData);
     //this reveives data from popup form and set data to main object throght state
     onDataFromChild((prevState) => [...prevState, userData]);
 
@@ -30,6 +84,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
     setName("");
     setNumber("");
     setContent("");
+    setProfile("");
   };
 
   return (
@@ -60,7 +115,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <input type="file" id="file" className="hidden" />
+        <input type="file" id="file" className="hidden" onChange={handleImageUpload} />
         <label
           htmlFor="file"
           className="absolute left-14 bottom-4 cursor-pointer"

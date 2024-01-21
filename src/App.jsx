@@ -38,7 +38,7 @@ function App() {
   const [searchInput, setSearchInput] = useState("");
   const [titleName, setTitleName] = useState({
     name: "user",
-    profile: "",
+    profile: "./assets/images/profileIcon.jpg",
   });
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
@@ -57,7 +57,7 @@ function App() {
   useEffect(() => {
     setTitleName({
       name: "user",
-      profile: "",
+      profile: "./assets/images/profileIcon.jpg",
     });
   }, [user]);
 
@@ -98,6 +98,8 @@ function App() {
     setMessageInput(e.target.value);
   };
 
+  const sideNavImg = { name: "", profile: "./assets/images/profileIcon.jpg" }
+
   // Main component rendering
   return (
     <div
@@ -109,33 +111,34 @@ function App() {
         <div className="w-1/3 bg-white pb-1 h-full overflow-y-hidden border-r">
           {/* navigationbar for sidebar section */}
           <Navbar
-            showForm={toggleFormHandler}
-            iconStyle={"flex items-center justify-between w-2/3 pr-8"}
-            icon1={<MdGroups style={{ color: "#54656f", fontSize: "2rem" }} />}
-            icon2={
-              <TbHistoryToggle
-                style={{ color: "#54656f", fontSize: "1.8rem" }}
-              />
-            }
-            icon3={
-              <RiChatSmile3Fill
-                style={{ color: "#54656f", fontSize: "1.5rem" }}
-              />
-            }
-            icon4={
-              <MdOutlineAddComment
-                style={{ color: "#54656f", fontSize: "1.5rem" }}
-              />
-            }
-            icon5={
-              <CiMenuKebab
-                style={{
-                  color: "#54656f",
-                  fontSize: "1.5rem",
-                  fontWeight: "900",
-                }}
-              />
-            }
+            title={sideNavImg}
+          showForm={toggleFormHandler}
+          iconStyle={"flex items-center justify-between w-2/3 pr-8"}
+          icon1={<MdGroups style={{ color: "#54656f", fontSize: "2rem" }} />}
+          icon2={
+            <TbHistoryToggle
+              style={{ color: "#54656f", fontSize: "1.8rem" }}
+            />
+          }
+          icon3={
+            <RiChatSmile3Fill
+              style={{ color: "#54656f", fontSize: "1.5rem" }}
+            />
+          }
+          icon4={
+            <MdOutlineAddComment
+              style={{ color: "#54656f", fontSize: "1.5rem" }}
+            />
+          }
+          icon5={
+            <CiMenuKebab
+              style={{
+                color: "#54656f",
+                fontSize: "1.5rem",
+                fontWeight: "900",
+              }}
+            />
+          }
           />
           {/* Search bar component */}
           <TextBox

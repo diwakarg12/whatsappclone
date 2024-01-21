@@ -10,18 +10,19 @@ const Navbar = ({
   iconStyle,
   showForm,
 }) => {
+  const {name, profile} = title;
   return (
     <nav className="bg-[#dee0e3] flex items-center justify-between p-2 pl-8">
       <div className="w-1/3 flex items-center justify-start">
         <button title="profile">
           <img
-            src="./assets/images/profile.png"
-            // src={title?.profile}
+            // src="./assets/images/profile.png"
+            src={profile}
             alt="Profile"
             className="w-10 h-10 bg-slate-200 rounded-full"
           />
         </button>
-        <h4 className="text-black text-lg ml-2">{title?.name}</h4>
+        <h4 className="text-black text-lg ml-2">{name}</h4>
       </div>
       <div className={iconStyle}>
         <button
