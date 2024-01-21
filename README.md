@@ -41,12 +41,12 @@ Make sure you have the following software installed on your machine:
 3. Install dependencies:
    - npm install
 
-###Usage
+### Usage
 1. Start the development server:
 2. Open your web browser and go to http://localhost:5173.
 3. Interact with the WhatsApp Clone application.
 
-###Contributing
+### Contributing
 Contributions are welcome! Feel free to open issues and pull requests.
 1. Fork the project.
 2. Create your feature branch: git checkout -b feature/new-feature.
