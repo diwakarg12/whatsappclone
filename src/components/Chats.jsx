@@ -6,7 +6,8 @@ import { MdDelete } from "react-icons/md";
 const Chats = ({ userShow, deleteChat, nameOnTitle }) => {
   return (
     <div className="h-5/6 overflow-y-auto scrollbar">
-      {userShow?.map((item) => (        //mapping over userShowData which comes as prop and display each user to the Chats section.
+      {userShow?.map((item) => (
+        //mapping over userShowData which comes as prop and display each user to the Chats section.
         <Chat
           key={item.id}
           profile={item.profile}

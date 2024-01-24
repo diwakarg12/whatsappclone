@@ -32,7 +32,7 @@ const dataToDisplay = [
 
 function App() {
   // State variables using useState hook
-  const [user, setUser] = useState(dataToDisplay);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [toggleForm, setToggleForm] = useState(false);
   const [toggleEmoji, setToggleEmoji] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -42,15 +42,38 @@ function App() {
   });
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
+  const [chats, setChats] = useState({});
+
+  const storedUserData = localStorage.getItem("userData");
+
+  const localStoredData = storedUserData ? JSON.parse(storedUserData) : [];
+  const [user, setUser] = useState(localStoredData);
+
+  // Update local storage whenever the user state changes
+  useEffect(() => {
+    try {
+      localStorage.setItem("userData", JSON.stringify(user));
+    } catch (error) {
+      console.error("Error storing data in local storage:", error);
+    }
+  }, [user]);
+
 
   // Function to handle user click and display user details in the Navbar
   const handleNameClick = (id) => {
+    setSelectedUserId(id);
+    if (!chats[id]) {
+      setChats((prevChats) => ({
+        ...prevChats,
+        [id]: [],
+      }));
+    }
     let data = user.find((item) => item.id === id);
     setTitleName({
       name: data.name,
       profile: data.profile,
     });
-    console.log(id);
+    // console.log(id);
   };
 
   // useEffect hook to reset the titleName when user data changes
@@ -69,6 +92,7 @@ function App() {
   // Function to handle chat deletion
   const hnadleDelete = (id) => {
     setUser(user.filter((e) => e.id !== id));
+    setSelectedUserId(null);
   };
 
   // Function to handle search input change
@@ -83,11 +107,17 @@ function App() {
 
   // Function to handle sending a message
   const handleSendMessage = () => {
-    if (messageInput.trim() !== "") {
+    if (selectedUserId && messageInput.trim() !== "") {
       const newMessage = {
         sender: titleName.name,
         content: messageInput,
       };
+
+      setChats((prevChats) => ({
+        ...prevChats,
+        [selectedUserId]: [...prevChats[selectedUserId], newMessage],
+      }));
+
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setMessageInput(""); // Clear the message input after sending
     }
@@ -112,33 +142,33 @@ function App() {
           {/* navigationbar for sidebar section */}
           <Navbar
             title={sideNavImg}
-          showForm={toggleFormHandler}
-          iconStyle={"flex items-center justify-between w-2/3 pr-8"}
-          icon1={<MdGroups style={{ color: "#54656f", fontSize: "2rem" }} />}
-          icon2={
-            <TbHistoryToggle
-              style={{ color: "#54656f", fontSize: "1.8rem" }}
-            />
-          }
-          icon3={
-            <RiChatSmile3Fill
-              style={{ color: "#54656f", fontSize: "1.5rem" }}
-            />
-          }
-          icon4={
-            <MdOutlineAddComment
-              style={{ color: "#54656f", fontSize: "1.5rem" }}
-            />
-          }
-          icon5={
-            <CiMenuKebab
-              style={{
-                color: "#54656f",
-                fontSize: "1.5rem",
-                fontWeight: "900",
-              }}
-            />
-          }
+            showForm={toggleFormHandler}
+            iconStyle={"flex items-center justify-between w-2/3 pr-8"}
+            icon1={<MdGroups style={{ color: "#54656f", fontSize: "2rem" }} />}
+            icon2={
+              <TbHistoryToggle
+                style={{ color: "#54656f", fontSize: "1.8rem" }}
+              />
+            }
+            icon3={
+              <RiChatSmile3Fill
+                style={{ color: "#54656f", fontSize: "1.5rem" }}
+              />
+            }
+            icon4={
+              <MdOutlineAddComment
+                style={{ color: "#54656f", fontSize: "1.5rem" }}
+              />
+            }
+            icon5={
+              <CiMenuKebab
+                style={{
+                  color: "#54656f",
+                  fontSize: "1.5rem",
+                  fontWeight: "900",
+                }}
+              />
+            }
           />
           {/* Search bar component */}
           <TextBox
@@ -176,9 +206,12 @@ function App() {
 
         {/* Main Section */}
         <div className="w-2/3 h-full relative">
-          <div className="h-full flex flex-col justify-between">
+          {toggleForm && (
+            <UserAdd onDataFromChild={setUser} hideForm={toggleFormHandler} />
+          )}
+          {selectedUserId ? <div className="h-full flex flex-col justify-between">
             {/* Navbar for user Details to which user is chatting*/}
-            <Navbar
+            {selectedUserId && <Navbar
               title={titleName}
               iconStyle={"flex items-center justify-end w-2/3 pr-8"}
               icon1={
@@ -199,17 +232,14 @@ function App() {
                   }}
                 />
               }
-            />
+            />}
             {/* popup form to add user into Chats section.  */}
-            {toggleForm && (
-              <UserAdd onDataFromChild={setUser} hideForm={toggleFormHandler} />
-            )}
             {/* popup emoji section to use emoji  */}
             {toggleEmoji && <Emojies />}
             {/* Chat Areat to display sent and receive message */}
-            <ChatArea messages={messages} />
+            {selectedUserId && <ChatArea messages={messages} />}
             {/* Textbox to send message to other user. */}
-            <TextBox
+            {selectedUserId && <TextBox
               mainStyle={
                 "relative bg-[#dee0e3] flex w-full items-center justify-center p-1"
               }
@@ -239,8 +269,10 @@ function App() {
               onInputChange={handleInputChange}
               sendMessage={handleSendMessage}
               messageInput={messageInput}
-            />
-          </div>
+            />}
+          </div> : <div className="h-full w-full">
+            <img src="/assets/images/mainbg.png" className="w-full h-full" alt="" />
+          </div>}
         </div>
       </div>
     </div>

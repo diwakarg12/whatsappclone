@@ -40,6 +40,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
     });
   }
 
+
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -98,6 +99,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
           type="text"
           className="w-full p-1 m-2 rounded-sm text-slate-600 text-lg placeholder:text-slate-600 focus:outline-none"
           placeholder="Enter Name"
+          minLength="5" maxLength="20"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -105,6 +107,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
           type="number"
           className="w-full p-1 m-2 rounded-sm text-lg text-slate-600 placeholder:text-slate-600 focus:outline-none "
           placeholder="Enter Phone"
+          minLength="10" maxLength="10"
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
@@ -112,6 +115,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
           type="text"
           className="w-full p-1 m-2 mb-12 rounded-sm text-lg text-slate-600 placeholder:text-slate-600 focus:outline-none"
           placeholder="Enter Occupation"
+          minLength="5" maxLength="20"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
