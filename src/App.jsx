@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./App.css"
 // Importing components and icons
 import Navbar from "./components/Navbar";
 import TextBox from "./components/TextBox";
@@ -17,35 +17,24 @@ import { IoMdAdd } from "react-icons/io";
 import ChatArea from "./components/ChatArea";
 import UserAdd from "./components/UserAdd";
 import { useState, useEffect } from "react";
-import Emojies from "./components/Emojies";
+// import Emojies from "./components/Emojies";
 
-// Sample user data to be displayed when loading.
-const dataToDisplay = [
-  {
-    id: 1,
-    name: "Diwakar",
-    content: "Front-End Developer",
-    mobile: 7488081301,
-    profile: "./assets/images/profileIcon.jpg",
-  },
-];
 
 function App() {
   // State variables using useState hook
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [toggleForm, setToggleForm] = useState(false);
-  const [toggleEmoji, setToggleEmoji] = useState(false);
+  // const [toggleEmoji, setToggleEmoji] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [titleName, setTitleName] = useState({
     name: "user",
     profile: "./assets/images/profileIcon.jpg",
   });
-  const [messages, setMessages] = useState([]);
+  // const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [chats, setChats] = useState({});
 
   const storedUserData = localStorage.getItem("userData");
-
   const localStoredData = storedUserData ? JSON.parse(storedUserData) : [];
   const [user, setUser] = useState(localStoredData);
 
@@ -73,15 +62,15 @@ function App() {
       name: data.name,
       profile: data.profile,
     });
-    // console.log(id);
   };
 
   // useEffect hook to reset the titleName when user data changes
   useEffect(() => {
-    setTitleName({
-      name: "user",
-      profile: "./assets/images/profileIcon.jpg",
-    });
+    // setTitleName({
+    //   name: "user",
+    //   profile: "./assets/images/profileIcon.jpg",
+    // });
+    setSelectedUserId(null);
   }, [user]);
 
   // Function to toggle the user form display
@@ -92,6 +81,11 @@ function App() {
   // Function to handle chat deletion
   const hnadleDelete = (id) => {
     setUser(user.filter((e) => e.id !== id));
+    setChats((prevChats) => {
+      const newChats = { ...prevChats };
+      delete newChats[id];
+      return newChats;
+    });
     setSelectedUserId(null);
   };
 
@@ -118,7 +112,7 @@ function App() {
         [selectedUserId]: [...prevChats[selectedUserId], newMessage],
       }));
 
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      // setMessages((prevMessages) => [...prevMessages, newMessage]);
       setMessageInput(""); // Clear the message input after sending
     }
   };
@@ -235,9 +229,9 @@ function App() {
             />}
             {/* popup form to add user into Chats section.  */}
             {/* popup emoji section to use emoji  */}
-            {toggleEmoji && <Emojies />}
+            {/* {toggleEmoji && <Emojies />} */}
             {/* Chat Areat to display sent and receive message */}
-            {selectedUserId && <ChatArea messages={messages} />}
+            {selectedUserId && <ChatArea messages={chats[selectedUserId]} />}
             {/* Textbox to send message to other user. */}
             {selectedUserId && <TextBox
               mainStyle={
@@ -251,7 +245,7 @@ function App() {
                 <MdOutlineEmojiEmotions
                   title="Emoji"
                   className="text-#54656f text-[1.9rem] cursor-pointer ml-4"
-                  onClick={() => setToggleEmoji(!toggleEmoji)}
+                // onClick={() => setToggleEmoji(!toggleEmoji)}
                 />
               }
               icon2={

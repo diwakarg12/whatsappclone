@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import "../Style.css";
 import Chat from "./Chat";
 import { MdDelete } from "react-icons/md";

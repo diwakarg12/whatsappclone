@@ -4,7 +4,7 @@ import { FcAddImage } from "react-icons/fc";
 
 const UserAdd = ({ onDataFromChild, hideForm }) => {
   const [name, setName] = useState("");
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState("");
   const [content, setContent] = useState("");
   const [profile, setProfile] = useState("");
 
@@ -64,7 +64,7 @@ const UserAdd = ({ onDataFromChild, hideForm }) => {
   // function to handle data's when submitting form after filling and some validation on blank input box.
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name === "" || number === "" || content === "") {
+    if (name === "" || number === "" || content === "" || profile === "") {
       alert("Please fill out all the fields");
       return;
     }
