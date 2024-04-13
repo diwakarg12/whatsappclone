@@ -10,7 +10,7 @@ const ChatArea = ({ messages }) => {
         flexDirection: "column-reverse",
       }}
     >
-      {/* using map function to dislay all the sent message & slice and reverse function to dislay the message in reverse order like whatsapp */}
+      {/* using map function to dislay all the sent message and using slice and reverse function to dislay the message in reverse order like whatsapp */}
       {messages
         ?.slice()
         .reverse()
